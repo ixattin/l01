@@ -1,0 +1,728 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Happy Birthday!</title>
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            body,
+            html {
+                width: 100%;
+                min-height: 100vh;
+                height: 100%;
+                overflow: hidden;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background: #000;
+                margin: 0;
+                padding: 10px;
+            }
+            body {
+                margin: 0;
+                min-height: 100vh;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background: radial-gradient(circle, #2d0036, #0f0012);
+                font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+                overflow: hidden;
+                padding: 20px 0;
+            }
+
+            .card-container {
+                position: relative;
+                width: 90%;
+                max-width: 400px;
+                min-height: 580px;
+                margin: auto;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .card {
+                position: relative;
+                width: 100%;
+                height: 100%;
+                background: rgba(255, 255, 255, 0.1);
+                backdrop-filter: blur(10px);
+                border-radius: 30px;
+                box-shadow:
+                    0 0 30px rgba(255, 99, 195, 0.3),
+                    0 0 60px rgba(255, 99, 195, 0.1);
+                padding: 30px 20px;
+                text-align: center;
+                z-index: 5;
+            }
+
+            .birthday-text {
+                font-size: 2.5em;
+                font-weight: bold;
+                background: linear-gradient(
+                    45deg,
+                    #ff6b6b,
+                    #ff9999,
+                    #ff47d9,
+                    #ff6b6b
+                );
+                -webkit-background-clip: text;
+                background-clip: text;
+                color: transparent;
+                animation: gradient 4s ease infinite;
+                margin-bottom: 20px;
+                text-shadow: 0 0 10px rgba(255, 107, 107, 0.3);
+                padding: 0 10px;
+            }
+
+            @keyframes gradient {
+                0% {
+                    background-position: 0% 50%;
+                }
+                50% {
+                    background-position: 100% 50%;
+                }
+                100% {
+                    background-position: 0% 50%;
+                }
+            }
+
+            .message {
+                font-size: 1.1em;
+                color: #fff;
+                line-height: 1.6;
+                margin: 20px 0;
+                text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+                padding: 0 15px;
+            }
+
+            .sparkles {
+                position: absolute;
+                font-size: 20px;
+                pointer-events: none;
+                animation: sparkle infinite ease-in-out;
+                z-index: -1;
+            }
+
+            @keyframes sparkle {
+                0%,
+                100% {
+                    opacity: 0;
+                    transform: scale(0);
+                }
+                50% {
+                    opacity: 1;
+                    transform: scale(1.2);
+                }
+            }
+
+            .cake-section {
+                margin: 20px auto;
+                font-size: 50px;
+                animation: cakeJump 2s ease-in-out infinite;
+                padding: 10px;
+            }
+
+            @keyframes cakeJump {
+                0%,
+                100% {
+                    transform: translateY(0);
+                }
+                50% {
+                    transform: translateY(-5px);
+                }
+            }
+
+            .name {
+                font-size: 1.8em;
+                background: linear-gradient(45deg, #ffd700, #ff69b4);
+                -webkit-background-clip: text;
+                background-clip: text;
+                color: transparent;
+                margin: 15px 0;
+                font-weight: bold;
+                padding: 0 10px;
+            }
+
+            .wish-text {
+                font-size: 20px;
+                margin: 15px 0;
+                color: #fff;
+                display:none;
+            }
+
+            .balloon {
+                position: fixed;
+                font-size: 40px;
+                user-select: none;
+                cursor: pointer;
+                transition: transform 0.2s;
+                z-index: 1;
+            }
+
+            @media screen and (max-width: 480px) {
+                .card-container {
+                    width: 95%;
+                    min-height: 550px;
+                    margin: auto;
+                }
+
+                .card {
+                    padding: 20px 15px;
+                }
+
+                .birthday-text {
+                    font-size: 2em;
+                }
+
+                .message {
+                    font-size: 1em;
+                    margin: 15px 0;
+                }
+
+                .name {
+                    font-size: 1.5em;
+                }
+
+                .cake-section {
+                    font-size: 40px;
+                    margin: 15px auto;
+                }
+            }
+
+            .confetti,
+            .star {
+                position: fixed;
+                pointer-events: none;
+                z-index: 0;
+            }
+
+            .star {
+                animation: twinkle 1.5s infinite;
+                color: white;
+                font-size: 12px;
+            }
+
+            @keyframes twinkle {
+                0%,
+                100% {
+                    opacity: 0;
+                }
+                50% {
+                    opacity: 1;
+                }
+            }
+
+            .confetti {
+                width: 10px;
+                height: 10px;
+                opacity: 0;
+                transform-origin: center;
+            }
+
+            @keyframes confettiFall {
+                0% {
+                    opacity: 1;
+                    transform: translateY(-100vh) rotate(0deg);
+                }
+                100% {
+                    opacity: 0;
+                    transform: translateY(100vh) rotate(360deg);
+                }
+            }
+
+            .firework-confetti {
+                position: fixed;
+                width: 6px;
+                height: 6px;
+                pointer-events: none;
+                border-radius: 50%;
+                z-index: 0;
+            }
+
+            @keyframes fireworkSpread {
+                0% {
+                    opacity: 1;
+                    transform: translate(0, 0);
+                }
+                100% {
+                    opacity: 0;
+                    transform: translate(var(--tx), var(--ty));
+                }
+            }
+
+            @keyframes fireworkFall {
+                0% {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+                100% {
+                    opacity: 0;
+                    transform: translateY(1000px);
+                }
+            }
+            .firework-confetti-2 {
+                position: fixed;
+                width: 6px;
+                height: 6px;
+                pointer-events: none;
+                border-radius: 50%;
+                z-index: 0;
+                will-change: transform;
+            }
+            #imageContainer {
+                margin: 20px auto;
+                max-width: 200px;
+                position: relative;
+                z-index: 2;
+            }
+
+            .card-image {
+                width: 100%;
+                height: auto;
+                border-radius: 15px;
+                box-shadow: 0 0 20px rgba(255, 99, 195, 0.3);
+                opacity: 0.9;
+                transition: opacity 0.3s ease;
+            }
+
+            .card-image:hover {
+                opacity: 1;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="card-container">
+            <div class="card">
+                <div class="decorations"></div>
+
+                <div class="birthday-text">Happy Birthday!</div>
+
+                <div class="name">My Babe</div>
+                <div id="imageContainer"></div>
+
+                <div class="message">
+                    On this special day, may your heart be filled with joy and
+                    your life with endless blessings. Here's to another amazing
+                    year of laughter, love, and unforgettable moments!
+                </div>
+
+                <div class="cake-section">🎉🎂🎊</div>
+
+                <div class="wish-text">🎉 Wish you a happy birthday 🎉</div>
+            </div>
+        </div>
+
+        <script>
+            const MAX_BALLOON_COUNT = 5;
+            function createBalloon() {
+                if (
+                    document.querySelectorAll(".balloon").length >=
+                    MAX_BALLOON_COUNT
+                ) {
+                    return;
+                }
+                const balloon = document.createElement("div");
+                balloon.className = "balloon";
+                balloon.textContent = "🎈";
+
+                // Random starting position
+                const startX = Math.random() * (window.innerWidth - 50);
+                const startY = window.innerHeight + 50;
+                const ballonUpSpeed = 0.01;
+
+                balloon.style.left = startX + "px";
+                balloon.style.top = startY + "px";
+
+                // Movement properties
+                let velocityX = (Math.random() - 0.5) * 1.5; // Random horizontal velocity
+                let velocityY = -(1 + ballonUpSpeed * 2); // Upward vertical velocity
+                const wobble = 20 + Math.random() * 30; // Wobble range
+                let time = 0;
+                const damping = 0.9; // Soft bounce damping factor
+
+                function animate() {
+                    time += 0.01;
+
+                    // Update vertical position (floating upwards)
+                    const newY = parseFloat(balloon.style.top) + velocityY;
+
+                    // Add wobble to horizontal movement
+                    let newX =
+                        parseFloat(balloon.style.left) +
+                        velocityX +
+                        Math.sin(time) * 0.5;
+
+                    // Bounce off walls softly
+                    if (newX < 0) {
+                        newX = 0;
+                        velocityX = -velocityX * damping; // Reverse and dampen velocity
+                    } else if (newX > window.innerWidth - 50) {
+                        newX = window.innerWidth - 50;
+                        velocityX = -velocityX * damping; // Reverse and dampen velocity
+                    }
+
+                    // Update balloon's position
+                    balloon.style.top = newY + "px";
+                    balloon.style.left = newX + "px";
+
+                    // If the balloon is still in view, keep animating
+                    if (newY > -50) {
+                        requestAnimationFrame(animate);
+                    } else {
+                        // Once the balloon floats out of view, remove it and create a new one
+                        balloon.remove();
+                        setTimeout(createBalloon, Math.random() * 500 + 500);
+                    }
+                }
+
+                // Adding click event to remove balloon if clicked
+                balloon.addEventListener("click", e => {
+                    // Get balloon's position before removing it
+                    const rect = balloon.getBoundingClientRect();
+                    const x = rect.left + rect.width / 2;
+                    const y = rect.top + rect.height / 2;
+
+                    // Remove balloon, create firework at balloon's position, create new balloon
+                    balloon.remove();
+                    createFireworkConfetti2(x, y);
+                });
+
+                // Append the balloon to the document
+                document.body.appendChild(balloon);
+
+                // Start the animation
+                animate();
+            }
+
+            // Handle window resize
+            window.addEventListener("resize", () => {
+                const balloons = document.querySelectorAll(".balloon");
+                balloons.forEach(balloon => {
+                    const currentX = parseFloat(balloon.style.left);
+                    if (currentX > window.innerWidth - 50) {
+                        balloon.style.left = window.innerWidth - 50 + "px";
+                    }
+                });
+            });
+
+            function createConfetti() {
+                const colors = [
+                    "#ff718d",
+                    "#fdff6a",
+                    "#7afcff",
+                    "#ff7af3",
+                    "#fff"
+                ];
+
+                setInterval(() => {
+                    const confetti = document.createElement("div");
+                    confetti.className = "confetti";
+                    confetti.style.left = Math.random() * 100 + "vw";
+                    confetti.style.background =
+                        colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.transform = `rotate(${
+                        Math.random() * 360
+                    }deg)`;
+                    confetti.style.animation = `confettiFall ${
+                        3 + Math.random() * 2
+                    }s linear forwards`;
+
+                    document.body.appendChild(confetti);
+
+                    setTimeout(() => confetti.remove(), 5000);
+                }, 200);
+            }
+
+            function createStars() {
+                const starCount = 30;
+
+                for (let i = 0; i < starCount; i++) {
+                    const star = document.createElement("div");
+                    star.className = "star";
+                    star.textContent = "✦";
+                    star.style.left = Math.random() * 100 + "vw";
+                    star.style.top = Math.random() * 100 + "vh";
+                    star.style.animationDelay = Math.random() * 2 + "s";
+                    document.body.appendChild(star);
+                }
+            }
+            function createFireworkConfetti(x, y) {
+                const colors = [
+                    "#ff718d",
+                    "#fdff6a",
+                    "#7afcff",
+                    "#ff7af3",
+                    "#fff",
+                    "#ffd700"
+                ];
+                const particleCount = 100;
+
+                for (let i = 0; i < particleCount; i++) {
+                    const particle = document.createElement("div");
+                    particle.className = "firework-confetti";
+
+                    // Initial position at click/touch point
+                    particle.style.left = x + "px";
+                    particle.style.top = y + "px";
+                    particle.style.backgroundColor =
+                        colors[Math.floor(Math.random() * colors.length)];
+
+                    // Calculate random spread direction
+                    const angle = Math.random() * Math.PI * 2;
+                    const velocity = 3 + Math.random() * 5;
+                    const tx =
+                        Math.cos(angle) * velocity * (20 + Math.random() * 30);
+                    const ty =
+                        Math.sin(angle) * velocity * (20 + Math.random() * 30);
+
+                    // Set custom properties for the spread animation
+                    particle.style.setProperty("--tx", `${tx}px`);
+                    particle.style.setProperty("--ty", `${ty}px`);
+
+                    // Apply the spread animation
+                    particle.style.animation = `
+            fireworkSpread 0.6s ease-out forwards,
+            fireworkFall 1s ease-in ${0.6}s forwards
+        `;
+
+                    document.body.appendChild(particle);
+
+                    // Remove particle after animation
+                    setTimeout(() => particle.remove(), 2000);
+                }
+            }
+            function createFireworkConfetti2(x, y) {
+                const colors = [
+                    "#ff718d",
+                    "#fdff6a",
+                    "#7afcff",
+                    "#ff7af3",
+                    "#fff",
+                    "#ffd700"
+                ];
+                const particleCount = 150;
+                const gravity = 0.4;
+                const drag = 0.95;
+                const particles = [];
+
+                class Particle {
+                    constructor(x, y) {
+                        this.x = x;
+                        this.y = y;
+                        this.initialX = x;
+                        this.initialY = y;
+                        this.angle = Math.random() * Math.PI * 2;
+                        this.velocity = 10 + Math.random() * 5;
+                        this.vx = Math.cos(this.angle) * this.velocity;
+                        this.vy = Math.sin(this.angle) * this.velocity;
+                        this.element = document.createElement("div");
+                        this.element.className = "firework-confetti-2";
+                        this.element.style.backgroundColor =
+                            colors[Math.floor(Math.random() * colors.length)];
+                        this.element.style.left = this.x + "px";
+                        this.element.style.top = this.y + "px";
+                        this.life = 1;
+                        this.decay = 0.015 + Math.random() * 0.01;
+                        document.body.appendChild(this.element);
+                    }
+
+                    update() {
+                        this.life -= this.decay;
+
+                        // Apply gravity and drag
+                        this.vy += gravity;
+                        this.vx *= drag;
+                        this.vy *= drag;
+
+                        // Update position
+                        this.x += this.vx;
+                        this.y += this.vy;
+
+                        // Update DOM element
+                        this.element.style.left = this.x + "px";
+                        this.element.style.top = this.y + "px";
+                        this.element.style.opacity = this.life;
+
+                        return this.life > 0;
+                    }
+
+                    remove() {
+                        this.element.remove();
+                    }
+                }
+
+                function animate() {
+                    for (let i = particles.length - 1; i >= 0; i--) {
+                        const particle = particles[i];
+                        if (!particle.update()) {
+                            particle.remove();
+                            particles.splice(i, 1);
+                        }
+                    }
+
+                    if (particles.length > 0) {
+                        requestAnimationFrame(animate);
+                    }
+                }
+
+                // Create particles
+                for (let i = 0; i < particleCount; i++) {
+                    particles.push(new Particle(x, y));
+                }
+
+                animate();
+            }
+
+            function spawnBalloons() {
+                if (
+                    document.querySelectorAll(".balloon").length <
+                    MAX_BALLOON_COUNT
+                ) {
+                    createBalloon();
+                }
+                setTimeout(spawnBalloons, Math.random() * 1000 + 1000);
+            }
+
+            function createSparkles() {
+                const card = document.querySelector(".card");
+                const numSparkles = 8;
+                const minDistance = 20; // Minimum distance between sparkles in percentage
+                let activeSparkles = [];
+
+                function getPosition() {
+                    let attempts = 0;
+                    const maxAttempts = 50;
+
+                    while (attempts < maxAttempts) {
+                        // Generate random position
+                        const top = Math.random() * (100 - 10) + 5;
+                        const left = Math.random() * (100 - 10) + 5;
+
+                        // Check distance from all other sparkles
+                        let tooClose = false;
+                        for (let sparkle of activeSparkles) {
+                            const sparkleTop = parseFloat(sparkle.style.top);
+                            const sparkleLeft = parseFloat(sparkle.style.left);
+
+                            const distance = Math.sqrt(
+                                Math.pow(top - sparkleTop, 2) +
+                                    Math.pow(left - sparkleLeft, 2)
+                            );
+
+                            if (distance < minDistance) {
+                                tooClose = true;
+                                break;
+                            }
+                        }
+
+                        if (!tooClose) {
+                            return { top: top + "%", left: left + "%" };
+                        }
+
+                        attempts++;
+                    }
+
+                    // If we couldn't find a good position after max attempts,
+                    // try with a larger area
+                    return {
+                        top: Math.random() * 100 + "%",
+                        left: Math.random() * 100 + "%"
+                    };
+                }
+
+                function moveSparkle(sparkle) {
+                    // Remove this sparkle from active list temporarily
+                    activeSparkles = activeSparkles.filter(s => s !== sparkle);
+
+                    // Get new position
+                    const newPos = getPosition();
+                    sparkle.style.top = newPos.top;
+                    sparkle.style.left = newPos.left;
+
+                    // Add back to active list
+                    activeSparkles.push(sparkle);
+                }
+
+                for (let i = 0; i < numSparkles; i++) {
+                    const sparkle = document.createElement("span");
+                    sparkle.className = "sparkles";
+                    sparkle.textContent = "✨";
+
+                    // Get initial position
+                    const pos = getPosition();
+                    sparkle.style.top = pos.top;
+                    sparkle.style.left = pos.left;
+
+                    // Add to active sparkles list
+                    activeSparkles.push(sparkle);
+
+                    // Set random animation duration between 2-4 seconds
+                    const duration = 3 + Math.random() * 4;
+                    sparkle.style.animationDuration = `${duration}s`;
+
+                    // Move to new position every animation cycle
+                    setInterval(() => moveSparkle(sparkle), duration * 1000);
+
+                    card.appendChild(sparkle);
+                }
+            }
+
+            // Get parameters from URL
+            function getURLParams() {
+                const urlParams = new URLSearchParams(window.location.search);
+                return {
+                    name: urlParams.get("name")
+                        ? decodeURIComponent(urlParams.get("name"))
+                        : "My Babe",
+                    image: urlParams.get("image"),
+                    message: urlParams.get("message")
+                        ? decodeURIComponent(urlParams.get("message"))
+                        : `On this special day, may your heart be filled with joy and
+                    your life with endless blessings. Here's to another amazing
+                    year of laughter, love, and unforgettable moments!`,
+                    wish: urlParams.get("wish")
+                        ? decodeURIComponent(urlParams.get("wish"))
+                        : "🎉 Wish you a happy birthday 🎉"
+                };
+            }
+
+            // Set the name and image
+            function setupCard() {
+                const params = getURLParams();
+
+                // Set name
+                document.querySelector(".name").textContent = params.name;
+                document.querySelector(".message").textContent = params.message;
+                document.querySelector(".wish-text").textContent = params.wish;
+
+                // Set image if provided
+                if (params.image) {
+                    const imageContainer =
+                        document.getElementById("imageContainer");
+                    const img = document.createElement("img");
+                    img.src = params.image;
+                    img.className = "card-image";
+                    img.onerror = function () {
+                        this.style.display = "none";
+                    };
+                    imageContainer.appendChild(img);
+                }
+            }
+
+            // Initialize
+            window.onload = function () {
+                setupCard();
+                spawnBalloons();
+                createStars();
+                createSparkles();
+            };
+        </script>
+    </body>
+</html>
